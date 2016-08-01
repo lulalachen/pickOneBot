@@ -1,12 +1,13 @@
 {
   "name": "pickbot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "build/app.js",
+  "main": "./build/app.js",
   "scripts": {
     "start": "node ./build/app.js",
     "watch": "nodemon --exec babel-node -- ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm run build",
     "prebuild": "rm -rf build",
     "build": "babel src -d build"
   },
@@ -29,6 +30,9 @@
     "isomorphic-fetch": "^2.2.1",
     "nodemon": "^1.10.0",
     "ramda": "^0.21.0"
+  },
+  "engines": {
+    "node": "6.2.0"
   },
   "author": "lulalachen",
   "license": "MIT"
