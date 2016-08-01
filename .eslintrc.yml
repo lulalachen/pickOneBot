@@ -1,0 +1,15 @@
+extends:
+  - airbnb-base
+
+rules:
+  strict: 0
+  semi: [2, "never"]
+  no-underscore-dangle: 0
+  no-else-return: 0
+  no-console: 0
+  consistent-return: 0
+
+parserOptions:
+  ecmaVersion: 6
+  ecmaFeatures:
+    experimentalObjectRestSpread: true

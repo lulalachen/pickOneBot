@@ -1,0 +1,27 @@
+{
+  "type": "message",
+  "senderID": "619160284",
+  "body": undefined,
+  "threadID": "619160284",
+  "messageID": "mid.1470073634881:5bfaff2ac372f63188",
+  "attachments": [
+    {
+      "type": "sticker",
+      "url": "https://scontent.xx.fbcdn.net/t39.1997-6/p128x128/13176360_1031369320279388_136518715_n.png?_nc_ad=z-m",
+      "stickerID": "1031369316946055",
+      "packID": "1021229357960051",
+      "frameCount": 11,
+      "frameRate": 90,
+      "framesPerRow": 4,
+      "framesPerCol": 3,
+      "spriteURI": "https://scontent.xx.fbcdn.net/t39.1997-6/s480x480/13065803_1031369323612721_1151791135_n.png?_nc_ad=z-m",
+      "spriteURI2x": "https://scontent.xx.fbcdn.net/t39.1997-6/13065803_1031369323612721_1151791135_n.png?_nc_ad=z-m",
+      "height": 120,
+      "width": 120,
+      "caption": null,
+      "description": null
+    }
+  ],
+  "timestamp": "1470073634888",
+  "isGroup": false
+}
