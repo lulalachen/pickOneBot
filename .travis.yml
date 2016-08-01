@@ -7,6 +7,10 @@ cache:
   bundler: true
   directories:
   - node_modules
+addons:
+  artifacts: true
+    paths:
+    - build
 deploy:
   provider: heroku
   api_key:
