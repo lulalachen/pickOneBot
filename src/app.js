@@ -41,7 +41,8 @@ const pickOne = () =>
 //   otherwise(() => 'Do nothing')
 // )
 
-const whiteList = ['619160284']
+const whiteList = ['619160284'] // Lulala Chen
+const threadIdWhiteList = ['535544279949045', '1245194108'] // LeetCode, hau
 
 login({
   email: EMAIL,
@@ -54,9 +55,13 @@ login({
   api.listen((error, { type, senderID, body = '', threadID }) => {
     console.log(type, senderID, body, threadID)
     if (
-      type === 'message' &&
-      (senderID === currentUserId || contains(senderID, whiteList)) &&
-      body.startsWith('/leetcode')
+      type === 'message'
+      && (
+        senderID === currentUserId
+          || contains(senderID, whiteList)
+          || contains(threadID, threadIdWhiteList)
+      )
+      && body.startsWith('/leetcode')
     ) {
       const [command, ...argvs] = drop(1, body.split(' '))
       const endTyping = api.sendTypingIndicator(threadID, console.log)
