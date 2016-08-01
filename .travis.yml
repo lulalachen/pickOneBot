@@ -8,7 +8,7 @@ cache:
   directories:
   - node_modules
 addons:
-  artifacts: true
+  artifacts:
     paths:
     - build
 deploy:
