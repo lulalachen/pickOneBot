@@ -30,10 +30,12 @@ setInterval(() => {
 login({
   email: EMAIL,
   password: PASSWORD,
+}, {
+  forceLogin: true,
 }, (err, api) => {
   if (err) return console.error(err)
   api.listen(handlePrintConsole)
-  api.setOptions({ selfListen: true, forceLogin: true })
+  api.setOptions({ selfListen: true })
   api.listen((error, { type, senderID, body = '', threadID, attachments = [] }) => {
     const { stickerID = 'No sticker' } = attachments[0]
     console.log(type, senderID, body, threadID, stickerID)
