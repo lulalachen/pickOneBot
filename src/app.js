@@ -1,12 +1,11 @@
 import login from 'facebook-chat-api'
 import fetch from 'isomorphic-fetch'
-import cheerio from 'cheerio'
-// import { cond, when, otherwise } from 'functional-switch'
-import { drop, contains, prop } from 'ramda'
-// import { pick, map, filter, pipe, isEmpty, identity, pathOr, length, propEq, __ } from 'ramda'
+import { prop } from 'ramda'
+import http from 'http'
 
-const { EMAIL, PASSWORD } = process.env
+const { EMAIL, PASSWORD, APP_NAME = 'pickonebot' } = process.env
 if (!EMAIL || !PASSWORD) throw Error('Missing email or password')
+if (!APP_NAME) throw Error('Missing app name')
 
 const parseToString =
   jsonObject => ((jsonObject instanceof Object)
@@ -16,33 +15,17 @@ const parseToString =
 const handlePrintConsole =
   (err, chunk) => console.log(parseToString(chunk))
 
-const leetCodeRootUrl = 'https://leetcode.com'
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.end('')
+}).listen(process.env.PORT || 5000)
 
-const pickOne = () =>
-  new Promise((resolve, reject) =>
-    fetch(`${leetCodeRootUrl}/problemset/algorithms/`)
-      .then(response => {
-        if (response.status > 400) reject('Server error')
-        return response.text()
-      })
-      .then(html => {
-        const $ = cheerio.load(html)
-        const href = $('#pick-btn').prop('href')
-        resolve(leetCodeRootUrl + href)
-      })
-      .catch(err => reject(err))
-    )
+setInterval(() => {
+  http.get(`http://${APP_NAME}.herokuapp.com/`, () => {})
+}, (600000 * Math.random()) + 600000) // between 20 and 50 min prevent from hault
 
-
-// const getOperationByCommand = cond(
-//   when('add', add),
-//   when('subtract', subtract),
-//   when('pickOne', pickOne),
-//   otherwise(() => 'Do nothing')
-// )
-
-const whiteList = ['619160284'] // Lulala Chen
-const threadIdWhiteList = ['535544279949045', '1245194108'] // LeetCode, hau
+// const whiteList = ['619160284'] // Lulala Chen
+// const threadIdWhiteList = ['535544279949045', '1245194108'] // LeetCode, hau
 
 login({
   email: EMAIL,
@@ -50,37 +33,35 @@ login({
 }, (err, api) => {
   if (err) return console.error(err)
   api.listen(handlePrintConsole)
-  api.setOptions({ selfListen: true })
-  const currentUserId = api.getCurrentUserID()
-  api.listen((error, { type, senderID, body = '', threadID }) => {
-    console.log(type, senderID, body, threadID)
+  api.setOptions({ selfListen: true, forceLogin: true })
+  api.listen((error, { type, senderID, body = '', threadID, attachments = [] }) => {
+    const { stickerID = 'No sticker' } = attachments[0]
+    console.log(type, senderID, body, threadID, stickerID)
     if (
       type === 'message'
-      && (
-        senderID === currentUserId
-          || contains(senderID, whiteList)
-          || contains(threadID, threadIdWhiteList)
-      )
+      // && (
+      //   senderID === currentUserId
+      //     || contains(senderID, whiteList)
+      //     || contains(threadID, threadIdWhiteList)
+      // )
       && body.startsWith('/leetcode')
     ) {
-      const [command, ...argvs] = drop(1, body.split(' '))
+      // const [command, ...argvs] = drop(1, body.split(' '))
       const endTyping = api.sendTypingIndicator(threadID, console.log)
-      pickOne(argvs[0])
-        .then(fetch)
+      fetch('https://leetcode.com/problems/random-one-question/algorithms')
         .then(prop('url'))
         .then(url => {
           endTyping()
           api.sendMessage({
-            body: `Answer of ${command} ${(argvs).join(' ')} is ${url}`,
-            url,
+            body: '頑張った！',
+            sticker: '1398251827059667',
           }, threadID)
+          api.sendMessage({ url }, threadID)
         })
         .catch(errMsg => {
           endTyping()
           api.sendMessage({ body: `Error: ${errMsg}` }, threadID)
         })
-      // const answer = apply(operationFunction, processedArgvs)
-      // answer.then(console.log)
     }
   })
 })
