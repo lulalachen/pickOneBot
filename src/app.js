@@ -26,6 +26,7 @@ setInterval(() => {
 
 // const whiteList = ['619160284'] // Lulala Chen
 // const threadIdWhiteList = ['535544279949045', '1245194108'] // LeetCode, hau
+const myself = '100000631826547'
 
 login({
   email: EMAIL,
@@ -39,7 +40,7 @@ login({
     const { type, senderID, body = '', threadID, attachments = [{}] } = event
     const { stickerID = 'No sticker' } = pathOr({}, [0])(attachments)
     console.log(type, senderID, body, threadID, stickerID)
-    if (stickerID !== 'No sticker') {
+    if (stickerID !== 'No sticker' && senderID !== '100000631826547') {
       api.sendMessage({ sticker: stickerID }, threadID)
     }
     if (
