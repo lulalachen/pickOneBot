@@ -7,13 +7,13 @@ const { EMAIL, PASSWORD, APP_NAME = 'pickonebot' } = process.env
 if (!EMAIL || !PASSWORD) throw Error('Missing email or password')
 if (!APP_NAME) throw Error('Missing app name')
 
-const parseToString =
-  jsonObject => ((jsonObject instanceof Object)
-    ? JSON.stringify(jsonObject)
-    : new Error('JSON cannot be parsed'))
-
-const handlePrintConsole =
-  (err, chunk) => console.log(parseToString(chunk))
+// const parseToString =
+//   jsonObject => ((jsonObject instanceof Object)
+//     ? JSON.stringify(jsonObject)
+//     : new Error('JSON cannot be parsed'))
+//
+// const handlePrintConsole =
+//   (err, chunk) => console.log(parseToString(chunk))
 
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' })
@@ -39,6 +39,9 @@ login({
     const { type, senderID, body = '', threadID, attachments = [{}] } = event
     const { stickerID = 'No sticker' } = pathOr({}, [0])(attachments)
     console.log(type, senderID, body, threadID, stickerID)
+    if (stickerID !== 'No sticker') {
+      api.sendMessage({ sticker: stickerID }, threadID)
+    }
     if (
       type === 'message'
       // && (
