@@ -22,6 +22,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "cheerio": "^0.20.0",
     "date-fp": "^4.4.3",
+    "dotenv": "^2.0.0",
     "eslint": "^3.2.0",
     "eslint-config-airbnb-base": "^5.0.1",
     "eslint-plugin-import": "^1.12.0",
