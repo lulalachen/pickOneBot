@@ -1,6 +1,6 @@
 import login from 'facebook-chat-api'
 import fetch from 'isomorphic-fetch'
-import { prop } from 'ramda'
+import { prop, pathOr } from 'ramda'
 import http from 'http'
 
 const { EMAIL, PASSWORD, APP_NAME = 'pickonebot' } = process.env
@@ -34,10 +34,10 @@ login({
   forceLogin: true,
 }, (err, api) => {
   if (err) return console.error(err)
-  api.listen(handlePrintConsole)
   api.setOptions({ selfListen: true })
-  api.listen((error, { type, senderID, body = '', threadID, attachments = [] }) => {
-    const { stickerID = 'No sticker' } = attachments[0]
+  api.listen((error, event = {}) => {
+    const { type, senderID, body = '', threadID, attachments = [{}] } = event
+    const { stickerID = 'No sticker' } = pathOr({}, [0])(attachments)
     console.log(type, senderID, body, threadID, stickerID)
     if (
       type === 'message'
