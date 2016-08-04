@@ -3,10 +3,9 @@ import { pathOr, drop, pipe, filter, propEq, pluck, length, contains } from 'ram
 import cheerio from 'cheerio'
 import fetch from 'isomorphic-fetch'
 import convertTableToJson from './convertTableToJson'
-import dotenv from 'dotenv'
+// import dotenv from 'dotenv'
 import http from 'http'
-
-dotenv.load()
+// dotenv.load()
 
 const { EMAIL, PASSWORD, APP_NAME = 'pickonebot' } = process.env
 if (!EMAIL || !PASSWORD) throw Error('Missing email or password')
