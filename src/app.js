@@ -69,10 +69,10 @@ login({
 }, {
   forceLogin: true,
 }, (err, api) => {
-  const currentUserId = api.getCurrentUserID()
   if (err) return console.error(err)
   api.setOptions({ selfListen: true })
   api.listen((error, event = {}) => {
+    const currentUserId = api.getCurrentUserID()
     const { type, senderID, body = '', threadID, attachments = [{}] } = event
     const { stickerID = 'No sticker' } = pathOr({}, [0])(attachments)
     console.log(type, senderID, body, threadID, stickerID)
