@@ -2,9 +2,9 @@ import login from 'facebook-chat-api'
 import { pathOr, drop, pipe, filter, propEq, pluck, length, contains } from 'ramda'
 import cheerio from 'cheerio'
 import fetch from 'isomorphic-fetch'
+import http from 'http'
 import convertTableToJson from './convertTableToJson'
 // import dotenv from 'dotenv'
-import http from 'http'
 // dotenv.load()
 
 const { EMAIL, PASSWORD, APP_NAME = 'pickonebot' } = process.env
