@@ -5,10 +5,11 @@ import D from 'date-fp'
 import chalk from 'chalk'
 import fetch from 'isomorphic-fetch'
 import Sandbox from 'sandbox'
+import http from 'http'
 
-import dotenv from 'dotenv'
-
-dotenv.load()
+// import dotenv from 'dotenv'
+//
+// dotenv.load()
 
 const s = new Sandbox()
 
@@ -74,15 +75,15 @@ const parseQuestion = (question) => {
 
 updateLeetcodeTable()
 //
-// http.createServer((req, res) => {
-//   res.writeHead(200, { 'Content-Type': 'text/plain' })
-//   res.end('')
-// }).listen(process.env.PORT || 5000)
-//
-// setInterval(() => {
-//   http.get(`http://${APP_NAME}.herokuapp.com/`, () => {})
-//   updateLeetcodeTable()
-// }, (600000 * Math.random()) + 600000) // between 20 and 50 min prevent from hault
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.end('')
+}).listen(process.env.PORT || 5000)
+
+setInterval(() => {
+  http.get(`http://${APP_NAME}.herokuapp.com/`, () => {})
+  updateLeetcodeTable()
+}, (600000 * Math.random()) + 600000) // between 20 and 50 min prevent from hault
 
 // const whiteList = ['619160284'] // Lulala Chen
 // const threadIdWhiteList = ['535544279949045', '1245194108'] // LeetCode, hau
@@ -162,12 +163,12 @@ login(credentials, {
           questionTitle,
           acceptRate,
         } = parseQuestion(pickOne(difficulty))
-        endTyping()
+        api.sendMessage({ sticker: '1398251827059667' }, threadID)
         api.sendMessage({
           url,
           body: `It's ${difficulty}! \n題目：${questionTitle} \n通過率：${acceptRate} \n大家加油！`,
         }, threadID)
-        api.sendMessage({ sticker: '1398251827059667' }, threadID)
+        endTyping()
         break
       }
       case '/sandbox': {
